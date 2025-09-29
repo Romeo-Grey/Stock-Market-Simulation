@@ -13,6 +13,22 @@ BH_returns = utils.StrategyReturns(returnsBH)
 #print(f"{BH_returns.iloc[-1]}")
 #print(utils.ReturnPercentage(returnsBH))
 
+print(f"Total BH Volatility {utils.Volitility(returnsBH)}")
+print(f"Total MA Volatility {utils.Volitility(returnsMA)}")
+print(f"Total MOM Volatility {utils.Volitility(returnsMOM)}")
+
+print(f"Total Annualized Return For BH {round(utils.AnnualizedReturn(returnsBH) * 100, 4)}%")
+print(f"Total Annualized Return For MA {round(utils.AnnualizedReturn(returnsMA) * 100, 4)}%")
+print(f"Total Annualized Return For MOM {round(utils.AnnualizedReturn(returnsMOM) * 100, 4)}%")
+
+print(f"Sharpe Ratio For BH {utils.SharpeRatio(returnsBH)}")
+print(f"Sharpe Ratio For MA {utils.SharpeRatio(returnsMA)}")
+print(f"Sharpe Ratio For MOM {utils.SharpeRatio(returnsMOM)}")
+
+print(f"Max Drawdown for BH {round(utils.MaxDrawDown(returnsBH) * 100, 4)}%")
+print(f"Max Drawdown for MA {round(utils.MaxDrawDown(returnsMA) * 100, 4)}%")
+print(f"Max Drawdown for MOM {round(utils.MaxDrawDown(returnsMOM) * 100, 4)}%")
+
 plt.subplot(1,3,1)
 plt.plot(utils.ReturnPercentage(returnsBH), color = 'blue', label = 'BH Strategy') # Show Daily Return Percentage for BH Strategy
 plt.plot(utils.ReturnPercentage(returnsMA), color = 'red', label = 'MA Strategy') # Show Daily Return Percentage for MA Strategy
