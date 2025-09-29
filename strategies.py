@@ -48,7 +48,7 @@ def MomentumStrategy(sp500_data, lookback = 5):
     momentum = close_PricesMomentum.pct_change(lookback).dropna()
     momentum = momentum.iloc[-returnlength:,0]
 
-    signal = (momentum > 0).astype(int).tolist()
+    signal = (momentum > 0).astype(int).shift(1).fillna(0).tolist()
     
     portfolioValue = [close_Price.iloc[0]]
 
