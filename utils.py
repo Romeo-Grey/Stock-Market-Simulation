@@ -1,6 +1,7 @@
 import pandas as pd
 import math
 import numpy as np
+import matplotlib.pyplot as plt
 def ReturnPercentage(strat_return):
     return strat_return.pct_change() * 100
 def StrategyReturns(strat_return):
@@ -24,9 +25,10 @@ def AnnualizedReturn(priceData):
 def SharpeRatio(priceData):
     return (AnnualizedReturn(priceData) - 0.02) / Volitility(priceData)
 
-def MaxDrawDown(priceData):
+def MaxDrawdown(priceData):
     price = pd.Series(priceData.astype(float))
     running_max = price.cummax()
     drawdown = (price / running_max) - 1
     max_dd = drawdown.min()
-    return max_dd
+
+    return max_dd, running_max, drawdown

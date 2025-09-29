@@ -10,8 +10,6 @@ returnsBH = pd.Series(strategies.BuyandHold(sp500_hourly_data))
 returnsMA = pd.Series(strategies.MovingAverage(sp500_hourly_data, 20, 100))
 returnsMOM = pd.Series(strategies.MomentumStrategy(sp500_hourly_data, 5))
 BH_returns = utils.StrategyReturns(returnsBH)
-#print(f"{BH_returns.iloc[-1]}")
-#print(utils.ReturnPercentage(returnsBH))
 
 print(f"Total BH Volatility {utils.Volitility(returnsBH)}")
 print(f"Total MA Volatility {utils.Volitility(returnsMA)}")
@@ -25,9 +23,37 @@ print(f"Sharpe Ratio For BH {utils.SharpeRatio(returnsBH)}")
 print(f"Sharpe Ratio For MA {utils.SharpeRatio(returnsMA)}")
 print(f"Sharpe Ratio For MOM {utils.SharpeRatio(returnsMOM)}")
 
-print(f"Max Drawdown for BH {round(utils.MaxDrawDown(returnsBH) * 100, 4)}%")
-print(f"Max Drawdown for MA {round(utils.MaxDrawDown(returnsMA) * 100, 4)}%")
-print(f"Max Drawdown for MOM {round(utils.MaxDrawDown(returnsMOM) * 100, 4)}%")
+MaxDrawdownBH, RunningMaxBH, DrawdownBH = utils.MaxDrawdown(returnsBH)
+MaxDrawdownMA, RunningMaxMA, DrawdownMA = utils.MaxDrawdown(returnsMA)
+MaxDrawdownMOM, RunningMaxMOM, DrawdownMOM = utils.MaxDrawdown(returnsMOM)
+
+print(f"Max Drawdown for BH {round(MaxDrawdownBH * 100, 4)}%")
+print(f"Max Drawdown for MA {round(MaxDrawdownMA * 100, 4)}%")
+print(f"Max Drawdown for MOM {round(MaxDrawdownMOM * 100, 4)}%")
+
+fig, ax = plt.subplots(2, 1, figsize = (12,8), sharex = True)
+
+ax[0].plot(returnsBH, label = "Portfolio Value BH", color = "blue")
+ax[0].plot(returnsMA, label = "Portfolio Value MA", color = "red")
+ax[0].plot(returnsMOM, label = "Portfolio Value MOM", color = "green")
+
+ax[0].plot(RunningMaxBH, label = "Running Max BH", linestyle = "--", color = "cyan")
+ax[0].plot(RunningMaxMA, label = "Running Max MA", linestyle = "--", color = "orange")
+ax[0].plot(RunningMaxMOM, label = "Running Max MOM", linestyle = "--", color = "magenta")
+
+ax[0].set_title("Portfolio vs Running Max")
+ax[0].legend()
+
+ax[1].fill_between(DrawdownBH.index, DrawdownBH, 0, color = "red", alpha = 0.5, label = "Drawdowns for BH")
+ax[1].fill_between(DrawdownMA.index, DrawdownMA, 0, color = "blue", alpha = 0.5, label = "Drawdowns for MA")
+ax[1].fill_between(DrawdownMOM.index, DrawdownMOM, 0, color = "green", alpha = 0.5, label = "Drawdowns for MOM")
+ax[1].legend()
+ax[1].set_title("Drawdowns Over Time")
+ax[1].set_ylabel("Drawdown")
+ax[1].set_xlabel("Date")
+plt.tight_layout()
+
+plt.show()
 
 plt.subplot(1,3,1)
 plt.plot(utils.ReturnPercentage(returnsBH), color = 'blue', label = 'BH Strategy') # Show Daily Return Percentage for BH Strategy
