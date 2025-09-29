@@ -1,6 +1,5 @@
 # Stock-Market-Simulation
 A simple stock market simulation program that allows for strategy simulations.
-
 # Features
 
 ![Example BH](https://github.com/Romeo-Grey/Stock-Market-Simulation/blob/main/Images/Figure_1.png)
