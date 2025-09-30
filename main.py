@@ -4,13 +4,14 @@ import matplotlib.pyplot as plt
 import utils
 import strategies
 
-sp500_hourly_data = yf.download("SPY", period="1y", interval="1d")
+sp500_hourly_data = yf.download("SPY", period="5y", interval="1d")
 sp500_hourly_data['Returns'] = sp500_hourly_data['Close'].pct_change() * 100
-returnsBH = pd.Series(strategies.BuyandHold(sp500_hourly_data))
-returnsMA = pd.Series(strategies.MovingAverage(sp500_hourly_data, 20, 100))
-returnsMOM = pd.Series(strategies.MomentumStrategy(sp500_hourly_data, 5))
+returnsBH = pd.Series(strategies.BuyandHold(sp500_hourly_data, 250))
+returnsMA = pd.Series(strategies.MovingAverage(sp500_hourly_data, 41, 67, 250))
+returnsMOM = pd.Series(strategies.MomentumStrategy(sp500_hourly_data, 5, 250))
 BH_returns = utils.StrategyReturns(returnsBH)
-
+#print(len(returnsBH))
+#print(len(returnsMA))
 print(f"Total BH Volatility {utils.Volitility(returnsBH)}")
 print(f"Total MA Volatility {utils.Volitility(returnsMA)}")
 print(f"Total MOM Volatility {utils.Volitility(returnsMOM)}")
